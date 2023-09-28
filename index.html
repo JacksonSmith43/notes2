@@ -11,18 +11,32 @@
 <body>
     <main>
         <div>
-            <input id="text" type="text" name="text" autofocus placeholder="Enter note...."/>
-            <button id="add">Add.</button>
+            <input id="title" type="text" name="title" placeholder="Title." spellcheck="false" />
+            <textarea id="text" type="text" name="text" placeholder="Enter note...." spellcheck="false" row="6"></textarea>
+
+            <div>
+                <button id="add">Add</button>
+            </div>
+
         </div>
 
         <ul id="list">
-            <li>Note 1.</li>
-            <li>Note 2.</li>
-            <li>Note 3.</li>
+            <li id="676c9ba771">
+                <article>
+                    <header>Title 1</header>
+                    <p>Note 1</p>
+
+                    <div>
+                        <button>Delete</button>
+                    </div>
+                </article>
+            </li>
         </ul>
 
     </main>
-
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/crypto-js/4.1.1/crypto-js.min.js"
+        integrity="sha512-E8QSvWZ0eCLGk4km3hxSsNmGW...TrF/OhyGWwonTcXA==" crossorigin="anonymous"
+        referrerpolicy="no-referrer"></script>
     <script src="index.js"></script>
 </body>
 
