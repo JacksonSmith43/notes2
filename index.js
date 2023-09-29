@@ -6,9 +6,14 @@ document.addEventListener("DOMContentLoaded", function () {
     const input = document.getElementById("text");
     input.addEventListener("keydown", handleKeyDown);
 
-    function handleClickLIItem(event) {
-        const list = document.getElementById("list");
-        list.removeChild(event.target);
+    function handleClickLIItem(id) {
+        return function () {
+            const item = document.getElementById(id);
+            const list = document.getElementById("list");
+            list.removeChild(item);
+            const pos = notes.findIndex((note) => note.id === id);
+            notes.splice(pos, 1);
+        };
     }
 
     function handleClick() {
@@ -24,17 +29,18 @@ document.addEventListener("DOMContentLoaded", function () {
 
 
     function add() {
-        const input = document.getElementById("text");
-        const note = input.value;
+        const title = document.getElementById("title");
+        const text = document.getElementById("text");
 
-        if (note) {
+        if (title.value || text.value) {
             const list = document.getElementById("list");
+            const note = createNote(title.value, text.value);
             const item = buildLIItem(note);
             list.appendChild(item);
             notes.push(note);
 
-            input.value = "";
-            input.focus(); // Goes back to the input field.
+            title.value = "";
+            text.focus(); // Goes back to the input field.
         }
 
     }
@@ -52,7 +58,7 @@ document.addEventListener("DOMContentLoaded", function () {
         const title = document.createElement("header");
         title.textContent = note.title;
         const text = document.createElement("p");
-        text.content = note.text;
+        text.textContentcontent = note.text;
 
         const controls = document.createElement("div");
         const button = document.createElement("button");
@@ -66,6 +72,17 @@ document.addEventListener("DOMContentLoaded", function () {
         item.appendChild(article);
 
         return item;
+    }
+
+    function createNote(title, text) {
+        const id = generateID(title, text);
+        return { id, title, text };
+    }
+
+    function generateID(title, text, length = 10) {
+        return CryptoJS.SHA256(title + text + new Date()) // CryptoJS.SHA256 = Eine eindeutige und schwer rückgängig zu machende Zeichenfolge aus den Eingabedaten (Titel, Text und Datum) zu erstellen. Dieser kryptografische Hash-Wert wird dann zur Identifizierung der Notiz verwendet, da er bei jeder Änderung der Eingabedaten erheblich variieren würde.
+            .toString()
+            .substring(0, length);
     }
 
 });
