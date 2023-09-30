@@ -1,4 +1,5 @@
 document.addEventListener("DOMContentLoaded", function () {
+    init();
 
     const button = document.getElementById("add");
     button.addEventListener("click", handleClick);
@@ -18,6 +19,7 @@ document.addEventListener("DOMContentLoaded", function () {
 
     function handleClick() {
         add();
+        save();
     }
 
 
@@ -45,7 +47,7 @@ document.addEventListener("DOMContentLoaded", function () {
 
     }
 
-    const notes = [
+    let notes = [
         // { id: "676c9ba771", title: "Title 1", text: "ToDo 1" },
         // { id: "dc191538f", title: "Title 2", text: "ToDo 2" }
     ];
@@ -86,3 +88,46 @@ document.addEventListener("DOMContentLoaded", function () {
     }
 
 });
+
+
+function handleClickDelete(id) {
+    return function () {
+        const item = document.getElementById(id);
+        const list = document.getElementById("list");
+        list.removeChild(item);
+        const pos = notes.findIndex((note) => note.id === id);
+        /* This does the same as the above line:
+        function findNoteIndex(note) {
+            return note.id === id;
+        }
+        const pos = notes.findIndex(findNoteIndex);*/
+
+        notes.splice(pos, 1); // splice(start, deleteCount) = Adds and or removes items.
+        save();
+    };
+}
+
+
+function init() {
+    registerEventHandlers();
+    load();
+    draw();
+}
+
+function registerEventHandlers() {
+    const button = document.getElementById("add");
+    button.addEventListener("click", handleClick);
+}
+
+function draw() {
+    const list = document.getElementById("list");
+    while (list.firstChild) {
+        list.removeChild(list.firstChild);
+    }
+    notes.forEach((note) => list.appendChild(buildLIItem(note)));
+    /* This does the same as the above line:
+    for (let i = 0; i < notes.length; i++) {
+        const note = notes[i];
+        list.appendChild(buildLIItem(note));
+    }*/
+}
